@@ -1,10 +1,10 @@
 ## ubuntu Docker container images with "headless" VNC session
 
-- start an headless ubuntu :
+- start :
 
     docker run -d --net=host --shm-size=256m cc861010/headless
 
-- Build an image from scratch:
+- enjoy :
 
     open container_host:5901 with vncviewer in full-screen mode
 
