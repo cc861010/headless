@@ -2,7 +2,7 @@
 
 - start an headless ubuntu :
 
-    docker run --shm-size=256m --rm -it --net=host ubuntu-headless
+    docker run --shm-size=256m --rm -it --net=host cc861010/headless
 
 - Build an image from scratch:
 
