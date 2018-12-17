@@ -1,0 +1,73 @@
+# This Dockerfile is used to build an headles vnc image based on Ubuntu
+
+FROM ubuntu:bionic-20181112 
+
+# Do not exclude man pages & other documentatio
+RUN rm /etc/dpkg/dpkg.cfg.d/excludes
+# Reinstall all currently installed packages in order to get the man pages back
+RUN apt-get update &&  dpkg -l | grep ^ii | cut -d' ' -f3 | xargs apt-get install -y --reinstall &&  rm -r /var/lib/apt/lists/*
+
+
+LABEL io.k8s.description="Headless VNC Container with i3wm  window manager, firefox and chromium" \
+      io.k8s.display-name="Headless VNC Container based on Ubuntu" \
+      io.openshift.expose-services="6901:http,5901:xvnc" \
+      io.openshift.tags="vnc, ubuntu, icewm" \
+      io.openshift.non-scalable=true
+
+## Connection ports for controlling the UI:
+# VNC port:5901
+# noVNC webport, connect via http://IP:6901/?password=vncpassword
+ENV DISPLAY=:1 \
+    VNC_PORT=5901 \
+    NO_VNC_PORT=6901
+EXPOSE $VNC_PORT $NO_VNC_PORT
+
+### Envrionment config
+ENV HOME=/headless \
+    TERM=xterm \
+    STARTUPDIR=/dockerstartup \
+    INST_SCRIPTS=/headless/install \
+    NO_VNC_HOME=/headless/noVNC \
+    DEBIAN_FRONTEND=noninteractive \
+    VNC_COL_DEPTH=24 \
+    VNC_RESOLUTION=1280x1024 \
+    VNC_PW=vncpassword \
+    VNC_VIEW_ONLY=false
+WORKDIR $HOME
+
+ADD ./scripts/sources.list /etc/apt/sources.list
+
+### Add all install scripts for further steps
+ADD ./scripts/ $INST_SCRIPTS/
+RUN find $INST_SCRIPTS -name '*.sh' -exec chmod a+x {} +
+
+RUN mkdir $STARTUPDIR
+ADD ./scripts/chrome-init.sh $STARTUPDIR
+ADD ./scripts/generate_container_user $STARTUPDIR
+ADD ./scripts/vnc_startup.sh  $STARTUPDIR
+
+### Install some common tools
+RUN $INST_SCRIPTS/tools.sh
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+
+### Install custom fonts
+RUN $INST_SCRIPTS/install_custom_fonts.sh
+
+### Install xvnc-server & noVNC - HTML5 based VNC viewer
+RUN $INST_SCRIPTS/tigervnc.sh
+RUN $INST_SCRIPTS/no_vnc.sh
+
+### Install firefox and chrome browser
+#RUN $INST_SCRIPTS/firefox.sh
+#RUN $INST_SCRIPTS/chrome.sh
+
+### configure startup
+RUN $INST_SCRIPTS/libnss_wrapper.sh
+
+RUN $INST_SCRIPTS/set_user_permission.sh $STARTUPDIR $HOME
+
+
+ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
+CMD ["--wait"]
+
+
