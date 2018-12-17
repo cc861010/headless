@@ -2,11 +2,11 @@
 
 - start an headless ubuntu :
 
-    docker run --shm-size=256m --rm -it --net=host cc861010/headless
+    docker run -d --net=host --shm-size=256m cc861010/headless
 
 - Build an image from scratch:
 
-    open localhost:5901 with vncviewer in full-screen mode
+    open container_host:5901 with vncviewer in full-screen mode
 
     WIN + ENTER  , just fun
 
