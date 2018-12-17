@@ -1,4 +1,4 @@
-# ubuntu-headless
+## ubuntu Docker container images with "headless" VNC session
 
 - start an headless ubuntu :
 
@@ -11,9 +11,7 @@
     WIN + ENTER  , just fun
 
 
-
-# ubuntu Docker container images with "headless" VNC session
-## some script from [`docker-headless-vnc-container`](https://github.com/ConSol/docker-headless-vnc-container)
+# some script from [`docker-headless-vnc-container`](https://github.com/ConSol/docker-headless-vnc-container)
 
 ## Usage
 
