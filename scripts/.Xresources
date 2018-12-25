@@ -39,13 +39,9 @@ xterm*highlightSelection: true
 !xterm*scrollKey:       true
 !xterm*scrollBar:       true
 
-XTerm*selectToClipboard: truev
-XTerm*VT100.Translations: #override \
-      Ctrl<Key>V: insert-selection(CLIPBOARD) \n 
-      Ctrl<Key>V: insert-selection(PRIMARY) \n 
-      Shift<Btn1Down>: select-start() \n 
-      Shift<Btn1Motion>: select-extend() \n 
-      Shift<Btn1Up>: select-end(CLIPBOARD) \n
+XTerm*selectToClipboard: true
+XTerm*vt100.translations: #override Ctrl <Key> V: insert-selection(CLIPBOARD)
+
 
 ! URxvt
 URxvt.modifier: mod1
