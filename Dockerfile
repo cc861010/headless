@@ -35,7 +35,7 @@ ENV HOME=/headless \
     VNC_VIEW_ONLY=false
 WORKDIR $HOME
 
-ADD ./scripts/sources.list /etc/apt/sources.list
+#ADD ./scripts/sources.list /etc/apt/sources.list
 
 ### Add all install scripts for further steps
 ADD ./scripts/ $INST_SCRIPTS/
