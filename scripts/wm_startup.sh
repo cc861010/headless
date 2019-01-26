@@ -23,6 +23,8 @@ else
         echo "USER_PASSWORD = $password"
 fi
 
+usermod -s /bin/bash $name
+
 # create user
 echo "create user.."
 if [ $(getent passwd $name) ] ; then
