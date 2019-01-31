@@ -23,7 +23,6 @@ else
         echo "USER_PASSWORD = $password"
 fi
 
-usermod -s /bin/bash $name
 
 # create user
 echo "create user.."
@@ -43,6 +42,7 @@ cp $INST_SCRIPTS/config /home/$name/.config/i3
 cp $INST_SCRIPTS/.Xresources /home/$name/
 chown -R $name /home/$name/.config
 /bin/su -l $name -c 'xrdb ~/.Xresources'
+usermod -s /bin/bash $name
 
 
 # login with no-root user
