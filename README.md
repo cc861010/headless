@@ -8,7 +8,7 @@
 
     open container_host:5901 with vncviewer in full-screen mode
 
-    WIN + ENTER  , just fun
+    Alt + Enter  , enjoy!
 
 
 ## some script from [`docker-headless-vnc-container`](https://github.com/ConSol/docker-headless-vnc-container)
